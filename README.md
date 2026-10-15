@@ -96,14 +96,25 @@ What each run logs: parameters, MAE / RMSE / R², a residual plot, `config.yaml`
 | v3 | `rf_large` | RandomForest, 300 trees, depth 12 |
 | v4 | `integration_rf_large` | Same model as v3, trained at Git commit `4f6aec4` on dataset v2, tagged for traceability |
 
-Lifecycle is managed with aliases and tags (MLflow 3.x): a candidate tag/alias for validation, a `production` alias for the deployed version, and an archived/retired tag for superseded versions. The acceptance rule and evidence are documented in the report.
+Lifecycle is managed with **tags** on each model version (`lifecycle` = `candidate`, `production` or `archived`), plus a `validation` tag recording the result against the acceptance rule (MAE <= 15000 and R2 >= 0.97).
+
+| Version | lifecycle tag | Validation |
+|---|---|---|
+| v1 | production | PASS (MAE 14152.54, R2 0.9755) |
+| v2 | archived | FAIL (weakest candidate) |
+| v3 | candidate | FAIL (MAE 16378.05, R2 0.9669) |
 
 Retrieve the production model:
 
 ```python
 import mlflow
+from mlflow.tracking import MlflowClient
+
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
-model = mlflow.sklearn.load_model("models:/HousePriceModel@production")
+client = MlflowClient()
+prod = [v for v in client.search_model_versions("name='HousePriceModel'")
+        if v.tags.get("lifecycle") == "production"][0]
+model = mlflow.sklearn.load_model(f"models:/HousePriceModel/{prod.version}")
 ```
 
 ## Git + DVC + MLflow integration
