@@ -1,0 +1,6 @@
+data_path: data/dataset.csv
+target: price
+test_size: 0.2
+seed: 42
+experiment_name: house-price
+registered_model_name: HousePriceModel
