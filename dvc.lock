@@ -38,5 +38,5 @@ stages:
     outs:
     - path: reports/pipeline_metrics.json
       hash: md5
-      md5: 04df350ef4cb5b706c4c053534702fff
+      md5: 60fd8c8af5924467cbcba20fdfe7e878
       size: 133
