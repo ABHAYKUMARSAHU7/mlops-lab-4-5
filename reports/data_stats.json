@@ -1,0 +1,10 @@
+{
+  "rows": 540,
+  "columns": 5,
+  "dataset_md5": "50154fccb2d70d0bb16c8273d0723fe6",
+  "dataset_bytes": 24101,
+  "missing_values": 0,
+  "target_mean": 219355.46,
+  "target_min": 31937.0,
+  "target_max": 426383.38
+}

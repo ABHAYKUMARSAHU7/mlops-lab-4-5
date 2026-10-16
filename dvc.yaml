@@ -1,0 +1,19 @@
+stages:
+  stats:
+    cmd: python src/data_stats.py
+    deps:
+    - data/dataset.csv
+    - src/data_stats.py
+    metrics:
+    - reports/data_stats.json:
+        cache: false
+  train:
+    cmd: python src/run_train.py
+    deps:
+    - configs/config.yaml
+    - reports/data_stats.json
+    - src/run_train.py
+    - src/train.py
+    metrics:
+    - reports/pipeline_metrics.json:
+        cache: false
